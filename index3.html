@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .navbar {
+      display: grid;
+      position: sticky;
+      z-index: 1;
+      top: 0;
+      width: 100%;
+      grid-gap: 10em;
+      grid-template-columns: 1fr auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 1rem;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 1rem;
+      display: inline-block;
+      position: relative;
+    }
+
+    .navbar a:hover::after {
+      content: '';
+      position: absolute;
+      width: 90%;
+      height: 2px;
+      background: linear-gradient(to bottom, #1A512E, #63A91F);
+      bottom: 0;
+      left: 0;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(6, auto);
+      gap: 1rem;
+    }
+
+    .menu-item {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #555;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #191919;
+    }
+
+    .menu-item:hover .dropdown-content {
+      display: block;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 30px;
+      height: 3px;
+      background-color: white;
+      margin: 5px 0;
+    }
+
+    #toggle {
+      display: none;
+    }
+
+    .navbar h1 {
+      color: white;
+    }
+
+    .sign i {
+      color: white;
+    }
+
+
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        grid-template-columns: 1fr;
+        grid-gap: 1rem;
+        background-color: black;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+      }
+
+      .menu-item {
+        text-align: center;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      #toggle:checked+.menu {
+        display: grid;
+      }
+
+      .sign {
+        text-align: center;
+        display: none;
+      }
+    }
+
+    .photo h1 {
+      font-size: 50px;
+      text-align: center;
+      color: #63A91F;
+      margin: 35px;
+    }
+
+    #gallery {
+      display: grid;
+      grid-template-rows: repeat(4, 1fr);
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      width: 80%;
+      height: 40rem;
+      margin: auto;
+      border-radius: 1.5rem;
+    }
+
+    #gallery>div {
+      border-radius: 0.5rem;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    #div1 {
+      grid-area: 1 / 1/ 3 / 3;
+      background-image: url(img4.jpg);
+    }
+
+    #div2 {
+      grid-area: 3 / 1/ 4 / 2;
+      background-image: url(img9.jpg);
+    }
+
+    #div3 {
+      grid-area: 3 / 2/ 4 / 3;
+      background-image: url(nature5.jpg);
+    }
+
+    #div4 {
+      grid-area: 4 / 1/ 5 / 3;
+      background-image: url(image.jpg);
+    }
+
+    #div5 {
+      grid-area: 1 / 3/ 2 / 5;
+      background-image: url(nature10.avif);
+    }
+
+    #div6 {
+      grid-area: 2 / 3/ 4 / 5;
+      background-image: url(nature3.avif);
+    }
+
+    #div7 {
+      grid-area: 4 / 3/ 5 / 4;
+      background-image: url(travel5.jpg);
+    }
+
+    #div8 {
+      grid-area: 4 / 4/ 5 / 5;
+      background-image: url(nature9.jpg);
+    }
+
+    .row1 {
+      display: grid;
+      grid-template-columns: 200px 200px 200px 200px;
+      grid-template-rows: 200px 200px 200px 200px;
+      width: 100%;
+      grid-gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+
+    .img {
+      width: 100%;
+      height: 100%;
+
+    }
+
+    .footer {
+      background-color: black;
+      color: #ffffff;
+      padding: 40px;
+    }
+
+    .footer-container {
+      display: grid;
+      padding: 2em;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .footer-column {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 0;
+    }
+
+    .footer-column li {
+      list-style: square;
+    }
+
+    .footer-column a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .footer-column a:hover {
+      text-decoration: underline;
+      color: #63A91F;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid white;
+      padding-top: 30px;
+    }
+
+    .footer-bottom span {
+      color: #63A91F;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-icons a {
+      color: #ffffff;
+      font-size: 24px;
+      text-decoration: none;
+    }
+
+    .footer-bottom a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer1 {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .row1 .img video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    #one {
+      grid-column: 1/3;
+      grid-row: 1/3;
+    }
+
+    #two {
+      grid-column: 3/5;
+    }
+
+    #three {
+      grid-column: 3/5;
+    }
+
+    #four {
+      grid-column: 1/4;
+    }
+
+    #seven {
+      grid-column: 2/4;
+    }
+
+    @media only screen and (max-width:991px) {
+      .row1 {
+        grid-template-columns: unset;
+      }
+
+      #gallery {
+        grid-template-columns: unset;
+      }
+    }
+
+    @media only screen and (max-width:767px) {
+      .row1 {
+        grid-template-columns: unset;
+      }
+
+      #gallery {
+        grid-template-columns: unset;
+      }
+
+      .navbar h1 {
+        font-size: 20px;
+      }
+
+      .footer-bottom {
+        display: none;
+      }
+
+      .photo h1 {
+        font-size: 30px;
+      }
+    }
+
+    @media only screen and (max-width:500px) {
+      .photo h1 {
+        font-size: 30px;
+      }
+    }
+
+    @media only screen and (max-width:375px) {
+      .navbar h1 {
+        font-size: 18px;
+      }
+
+      .photo h1 {
+        font-size: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <h1>Luxury voyage</h1>
+    <label for="toggle" class="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </label>
+    <input type="checkbox" id="toggle">
+    <div class="menu">
+      <div class="menu-item">
+        <a href="index.html">Home</a>
+      </div>
+      <div class="menu-item">
+        <a href="index1.html">About Us</a>
+      </div>
+      <div class="menu-item">
+        <a href="index2.html">Popular places&nbsp;<i class="fa-solid fa-caret-down"></i></a>
+        <div class="dropdown-content">
+          <a href="#">Maldives</a>
+          <a href="#">New York</a>
+          <a href="#">Paris</a>
+          <a href="#">Taj Mahal</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="index3.html">Photo Gallery&nbsp;<i class="fa-solid fa-caret-down"></i></a>
+        <div class="dropdown-content">
+          <a href="#Photo Gallery">Photo Gallery</a>
+          <a href="#Video Gallery">Video Gallery</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="index4.html">Contact Us</a>
+      </div>
+      <div class="sign">
+        <a href="index5.html">Sign in&ensp;<i class="fa-solid fa-user"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="photo" id="Photo Gallery">
+    <h1>Photo Gallery</h1>
+  </div>
+  <section id="gallery">
+    <div id="div1"></div>
+    <div id="div2"></div>
+    <div id="div3"></div>
+    <div id="div4"></div>
+    <div id="div5"></div>
+    <div id="div6"></div>
+    <div id="div7"></div>
+    <div id="div8"></div>
+  </section>
+  <div class="photo" id="Video Gallery">
+    <h1>Video Gallery</h1>
+  </div>
+  <div class="row1">
+    <div class="img" id="one"><video src="video.mp4" controls muted autoplay></video></div>
+    <div class="img" id="two"><video src="video1.mp4" controls muted autoplay></video></div>
+    <div class="img" id="three"><video src="video2.mp4" controls muted autoplay></video></div>
+    <div class="img" id="four"><video src="video3.mp4" controls muted autoplay></video></div>
+    <div class="img" id="five"><video src="video4.mp4" controls muted autoplay></video></div>
+    <div class="img" id="six"><video src="video5.mp4" controls muted autoplay></video></div>
+    <div class="img" id="seven"><video src="video6.mp4" controls muted autoplay></video></div>
+    <div class="img" id="eight"><video src="video7.mp4" controls muted autoplay></video></div>
+  </div>
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>EXPLORE</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Countries</a></li>
+            <li><a href="#">Cities</a></li>
+            <li><a href="#">Regions</a></li>
+            <li><a href="#">Inspiration</a></li>
+            <li><a href="#">Trending Tours</a></li>
+          </div>
+        </ul>
+
+      </div>
+      <div class="footer-column">
+        <h3>BOOKING</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Book Now</a></li>
+            <li><a href="#">Deals & Rewards</a></li>
+            <li><a href="#">Car Rentals</a></li>
+            <li><a href="#">Sign In/Register</a></li>
+            <li><a href="#">My Account</a></li>
+          </div>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>COMANY</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Career</a></li>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Partners</a></li>
+            <li><a href="#">Press</a></li>
+          </div>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>SUPPORT</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Live Chat</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Report an Issue</a></li>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2024 ExploreMore. All rights reserved|Design By <span>@SHIMRA NAAZ</span></div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-pinterest"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
+      <div>
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookies Policy</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

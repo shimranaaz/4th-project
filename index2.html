@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Popular Places</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .navbar {
+      display: grid;
+      width: 100%;
+      position: fixed;
+      z-index: 1;
+      grid-gap: 10em;
+      grid-template-columns: 1fr auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 1rem;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 1rem;
+      display: inline-block;
+      position: relative;
+    }
+
+    .navbar a:hover::after {
+      content: '';
+      position: absolute;
+      width: 90%;
+      height: 2px;
+      background: linear-gradient(to bottom, #1A512E, #63A91F);
+      bottom: 0;
+      left: 0;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(6, auto);
+      gap: 1rem;
+    }
+
+    .menu-item {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #555;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #191919;
+    }
+
+    .menu-item:hover .dropdown-content {
+      display: block;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 30px;
+      height: 3px;
+      background-color: white;
+      margin: 5px 0;
+    }
+
+    #toggle {
+      display: none;
+    }
+
+    .navbar h1 {
+      color: white;
+    }
+
+    .sign i {
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        grid-template-columns: 1fr;
+        grid-gap: 1rem;
+        background-color: black;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+      }
+
+      .menu-item {
+        text-align: center;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      #toggle:checked+.menu {
+        display: grid;
+      }
+
+      .sign {
+        text-align: center;
+        display: none;
+      }
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr;
+      margin-bottom: 50px;
+      gap: 20px;
+    }
+
+    .header {
+      position: relative;
+      text-align: center;
+      color: white;
+    }
+
+    .header img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: #f1f1f1;
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .overlay h1 {
+      font-size: 2em;
+    }
+
+    .book-main {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      justify-content: center;
+      margin-bottom: 60px;
+      align-items: center;
+      grid-row-gap: 5em;
+    }
+
+    .book {
+      width: 20em;
+      height: 300px;
+      display: inline-block;
+      margin: auto;
+      background-color: white;
+      transform-style: preserve-3d;
+      box-shadow: inset 300px 0 50px rgba(0, 0, 0, 0.2), 0 20px 50px rgba(0, 0, 0, 0.2);
+      transition: 1s;
+    }
+
+    .book:hover {
+      box-shadow: inset 20px 0 50px rgba(0, 0, 0, 0.5), 0 10px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .book::before {
+      content: " ";
+      position: absolute;
+      top: -5px;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background-color: black;
+      transform-origin: bottom;
+      transform: skewX(-45deg);
+    }
+
+    .book-main {
+      max-width: 1200px;
+      width: 100%;
+      margin: auto;
+      margin-bottom: 70px;
+    }
+
+    .book::after {
+      content: " ";
+      position: absolute;
+      right: -5px;
+      top: 0;
+      width: 5px;
+      height: 100%;
+      background-color: rgb(39, 34, 34);
+      transform-origin: bottom;
+      transform: skewY(-45deg);
+    }
+
+    .imgbox img {
+      width: 100%;
+      height: 300px;
+      position: relative;
+      z-index: 9999;
+    }
+
+    .book .imgbox {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-origin: left;
+      box-shadow: 10px 10px 20px gray;
+      transition: 1s;
+      z-index: 9999;
+    }
+
+    .book:hover .imgbox {
+      transform: rotateY(-135deg);
+    }
+
+    .book .content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -99;
+      padding: 30px;
+    }
+
+    .content h1 {
+      font-size: 25px;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+      color: #63A91F;
+    }
+
+    .content p {
+      font-size: 16px;
+      font-weight: 100;
+      color: #444;
+      text-align: justify;
+
+    }
+
+    .travel h1 {
+      text-align: center;
+      font-size: 40px;
+      color: #63A91F;
+      margin-bottom: 1em;
+    }
+
+    .footer {
+      background-color: black;
+      color: #ffffff;
+      padding: 40px;
+    }
+
+    .footer-container {
+      display: grid;
+      margin: 2em;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .footer-column {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 0;
+    }
+
+    .footer-column li {
+      list-style: square;
+    }
+
+    .footer-column a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .footer-column a:hover {
+      text-decoration: underline;
+      color: #63A91F;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid white;
+      padding-top: 30px;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-icons a {
+      color: #ffffff;
+      font-size: 24px;
+      text-decoration: none;
+    }
+
+    .footer-bottom a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer1 {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-bottom span {
+      color: #63A91F;
+    }
+
+    .text-overlay h1 {
+      margin: 0;
+      padding: 20px;
+      font-size: 2em;
+    }
+
+    .text-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      transform: translate(-50%, -50%);
+      color: white;
+      background-color: #0009;
+      text-align: center;
+    }
+
+    @media only screen and (min-width:768px) and (max-width:991px) {
+      .book-main {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .book {
+        width: 20em;
+        height: 33vh;
+      }
+
+      .imgbox img {
+        width: 20em;
+        height: 33vh;
+      }
+      .navbar h1 {
+        white-space: nowrap;
+      }
+      .content p{
+        font-size: 15px;
+      }
+    }
+
+    @media only screen and (max-width:767px) {
+      .book-main {
+        grid-template-columns: repeat(1, 1fr);
+      }
+
+      .book {
+        width: 20em;
+        height: 45vh;
+      }
+
+      .imgbox img {
+        width: 20em;
+        height: 45vh;
+      }
+
+      .header {
+        height: 80vh;
+      }
+    }
+
+    @media only screen and (max-width:540px) {
+      .book-main {
+        grid-template-columns: repeat(1, 1fr);
+      }
+
+      .book {
+        width: 22em;
+        height: 45vh;
+      }
+
+      .imgbox img {
+        width: 22em;
+        height: 45vh;
+      }
+
+      .header {
+        height: 80vh;
+      }
+    }
+
+    @media only screen and (max-width:452px) {
+      .navbar h1 {
+        font-size: 22px;
+        white-space: nowrap;
+      }
+
+      .header {
+        height: 23vh;
+      }
+
+      .footer-bottom {
+        display: none;
+      }
+
+      .header h1 {
+        font-size: 40px;
+      }
+    }
+
+    @media only screen and (max-width:430px) {
+      .book {
+        width: 18em;
+        height: 45vh;
+      }
+
+      .imgbox img {
+        width: 18em;
+        height: 45vh;
+      }
+    }
+
+    @media only screen and (max-width:414px) {
+      .book {
+        width: 18em;
+        height: 35vh;
+      }
+
+      .imgbox img {
+        width: 18em;
+        height: 35vh;
+      }
+      .content p{
+        font-size: 13px;
+      }
+    }
+
+    @media only screen and (max-width:375px) {
+      .navbar h1 {
+        font-size: 20px;
+        white-space: nowrap;
+      }
+
+      .header {
+        height: 65vh;
+      }
+
+      .book {
+        width: 18em;
+        height: 45vh;
+      }
+
+      .imgbox img {
+        width: 18em;
+        height: 45vh;
+      }
+      .content p{
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <h1>Luxury voyage</h1>
+    <label for="toggle" class="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </label>
+    <input type="checkbox" id="toggle">
+    <div class="menu">
+      <div class="menu-item">
+        <a href="index.html">Home</a>
+      </div>
+      <div class="menu-item">
+        <a href="index1.html">About Us</a>
+      </div>
+      <div class="menu-item">
+        <a href="index2.html">Popular places&nbsp;<i class="fa-solid fa-caret-down"></i></a>
+        <div class="dropdown-content">
+          <a href="#Maldives">Maldives</a>
+          <a href="#New York">New York</a>
+          <a href="#Paris">Paris</a>
+          <a href="#Taj Mahal">Taj Mahal</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="index3.html">Photo Gallery&nbsp;<i class="fa-solid fa-caret-down"></i></a>
+        <div class="dropdown-content">
+          <a href="#Photo Gallery">Photo Gallery</a>
+          <a href="#Video Gallery">Video Gallery</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="index4.html">Contact Us</a>
+      </div>
+      <div class="sign">
+        <a href="index5.html">Sign in&ensp;<i class="fa-solid fa-user"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="header">
+      <img src="nature2.jpg" alt="">
+      <div class="overlay">
+        <h1>Popular Places</h1>
+      </div>
+    </div>
+  </div>
+  <div class="travel">
+    <h1>Travel Here!</h1>
+  </div>
+  <div class="book-main">
+    <div class="book">
+      <div class="imgbox">
+        <img src="dubai.avif">
+      </div>
+      <div class="content">
+        <h1>New York</h1>
+        <p>New York is known for Times Square, a bustling commercial and entertainment hub famous for its bright lights,
+          Broadway theaters, and iconic New Year's Eve ball drop. Broadway theaters, and iconic New Year's Eve ball drop.</p>
+      </div>
+    </div>
+    <div class="book">
+      <div class="imgbox">
+        <img src="maldives1.avif">
+      </div>
+      <div class="content" id="Maldives">
+        <h1>Maldives</h1>
+        <p>The Maldives is one of the world's most geographically dispersed sovereign states, and the smallest
+          Muslim-majority country by land area. With a population of 515,132 in the 2022 census.With a population of 515,132 in the 2022 census.</p>
+      </div>
+    </div>
+    <div class="book">
+      <div class="imgbox">
+        <img src="tajmahal.jpg">
+      </div>
+      <div class="content" id="Taj Mahal">
+        <h1>Tajmahal</h1>
+        <p>The Taj Mahal is an ivory-white marble mausoleum on the right bank of the river Yamuna in Agra, Uttar
+          Pradesh, India. It was commissioned in 1631 by the fifth Mughal emperor.the river Yamuna in Agra, Uttar
+          Pradesh.</p>
+      </div>
+    </div>
+    <div class="book">
+      <div class="imgbox">
+        <img src="paris.avif">
+      </div>
+      <div class="content">
+        <h1>Paris</h1>
+        <p>Paris is the capital and most populous city of France. Situated on the Seine River, in the north of the
+          country, it is in the centre of the Île-de-France region, also known as the région parisienne, "Paris
+          Region".Paris has been one of the world's major centres of finance.</p>
+      </div>
+    </div>
+    <div class="book">
+      <div class="imgbox">
+        <img src="dubai1.avif">
+      </div>
+      <div class="content" id="New York">
+        <h1>Dubai</h1>
+        <p> Dubai is located on the eastern coast of the Arabian Peninsula in the southwest corner of the Arabian Gulf.
+          Dubai is the second largest emirate in the United Arab Emirates (UAE) sharing borders with Abu Dhabi in the
+          south, Sharjah in the northeast.</p>
+      </div>
+    </div>
+    <div class="book">
+      <div class="imgbox">
+        <img src="switzerland.jpg">
+      </div>
+      <div class="content" id="Paris">
+        <h1>Switzerland</h1>
+        <p>Switzerland lies at the heart of Europe. It has three distinct geographical regions: the Alps, the Central
+          Plateau and the Jura. The country boasts an extraordinary variety of landscapes and habitats, which make it a
+          highly attractive place to live in and do business.</p>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>EXPLORE</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Countries</a></li>
+            <li><a href="#">Cities</a></li>
+            <li><a href="#">Regions</a></li>
+            <li><a href="#">Inspiration</a></li>
+            <li><a href="#">Trending Tours</a></li>
+          </div>
+        </ul>
+
+      </div>
+      <div class="footer-column">
+        <h3>BOOKING</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Book Now</a></li>
+            <li><a href="#">Deals & Rewards</a></li>
+            <li><a href="#">Car Rentals</a></li>
+            <li><a href="#">Sign In/Register</a></li>
+            <li><a href="#">My Account</a></li>
+          </div>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>COMANY</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Career</a></li>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Partners</a></li>
+            <li><a href="#">Press</a></li>
+          </div>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>SUPPORT</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Live Chat</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Report an Issue</a></li>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2024 ExploreMore. All rights reserved|Designed By <span>@SHIMRA NAAZ</span></div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-pinterest"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
+      <div>
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookies Policy</a>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

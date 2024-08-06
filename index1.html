@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About us</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <style>
+    * {
+      font-family: "Space Grotesk", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .navbar {
+      display: grid;
+      width: 100%;
+      position: fixed;
+      z-index: 1;
+      grid-gap: 10em;
+      grid-template-columns: 1fr auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 1rem;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 1rem;
+      display: inline-block;
+      position: relative;
+    }
+
+    .navbar a:hover::after {
+      content: '';
+      position: absolute;
+      width: 90%;
+      height: 2px;
+      background: linear-gradient(to bottom, #1A512E, #63A91F);
+      bottom: 0;
+      left: 0;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(6, auto);
+      gap: 1rem;
+    }
+
+    .menu-item {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #555;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #191919;
+    }
+
+    .menu-item:hover .dropdown-content {
+      display: block;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 30px;
+      height: 3px;
+      background-color: white;
+      margin: 5px 0;
+    }
+
+    #toggle {
+      display: none;
+    }
+
+    .navbar h1 {
+      color: white;
+    }
+
+    .sign i {
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        grid-template-columns: 1fr;
+      }
+
+      .menu {
+        display: none;
+        grid-template-columns: 1fr;
+        grid-gap: 1rem;
+        background-color: black;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+      }
+
+      .menu-item {
+        text-align: center;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      #toggle:checked+.menu {
+        display: grid;
+      }
+
+      .sign {
+        text-align: center;
+        display: none;
+      }
+    }
+
+    .section h2 {
+      font-size: 40px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .section p {
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr;
+      margin-bottom: 70px;
+      gap: 20px;
+    }
+
+    .header {
+      position: relative;
+      text-align: center;
+      color: white;
+    }
+
+    .header img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: #f1f1f1;
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .overlay h1 {
+      font-size: 2em;
+    }
+
+    .section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .section img {
+      width: 100%;
+      height: auto;
+      box-shadow: 10px 10px 20px gray;
+    }
+
+    .section:nth-child(even) {
+      grid-template-columns: 1fr 1fr;
+      padding: 2em;
+    }
+
+    .section:nth-child(odd) {
+      grid-template-columns: 1fr 1fr;
+      padding: 2em;
+    }
+
+    .footer {
+      background-color: black;
+      color: #ffffff;
+      padding: 40px;
+    }
+
+    .footer-container {
+      display: grid;
+      margin: 2em;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .footer-column {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 0;
+    }
+
+    .footer-column li {
+      list-style: square;
+    }
+
+    .footer-column a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .footer-column a:hover {
+      text-decoration: underline;
+      color: #63A91F;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid white;
+      padding-top: 30px;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-icons a {
+      color: #ffffff;
+      font-size: 24px;
+      text-decoration: none;
+    }
+
+    .footer-bottom a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer1 {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-bottom span {
+      color: #63A91F;
+    }
+
+    @media only screen and (max-width:768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .section:nth-child(even) {
+        grid-template-columns: 1fr;
+      }
+
+      .section:nth-child(odd) {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar h1 {
+        font-size: 22px;
+        white-space: nowrap;
+      }
+    }
+
+    @media only screen and (max-width:375px) {
+      .footer-bottom {
+        display: none;
+      }
+    }
+
+    @media only screen and (max-width:430px) {
+      .footer-bottom {
+        display: none;
+      }
+
+      .navbar {
+        grid-gap: 2em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <h1>Luxury voyage</h1>
+    <label for="toggle" class="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </label>
+    <input type="checkbox" id="toggle">
+    <div class="menu">
+      <div class="menu-item">
+        <a href="index.html">Home</a>
+      </div>
+      <div class="menu-item">
+        <a href="index1.html">About Us</a>
+      </div>
+      <div class="menu-item">
+        <a href="index2.html">Popular places&nbsp;<i class="fa-solid fa-caret-down"></i></a>
+        <div class="dropdown-content">
+          <a href="#">Maldives</a>
+          <a href="#">New York</a>
+          <a href="#">Paris</a>
+          <a href="#">Taj Mahal</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="index3.html">Photo Gallery&nbsp;<i class="fa-solid fa-caret-down"></i></a>
+        <div class="dropdown-content">
+          <a href="#">Photo Gallery</a>
+          <a href="#">Greece</a>
+          <a href="#">Video Gallery</a>
+          <a href="#">Luxury places</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="index4.html">Contact Us</a>
+      </div>
+      <div class="sign">
+        <a href="index5.html">Sign in&ensp;<i class="fa-solid fa-user"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="header">
+      <img src="travel2.webp" alt="">
+      <div class="overlay">
+        <h1>About Us </h1>
+      </div>
+    </div>
+    <div class="section">
+      <div>
+        <h2>Travel</h2>
+        <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I
+          enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the
+          bliss of souls like mine. I am so happy.</p>
+      </div>
+      <img src="travel4.avif" alt="Vision Image">
+    </div>
+    <div class="section">
+      <img src="travel6.webp" alt="Approach Image">
+      <div>
+        <h2>Beautiful Joueney</h2>
+        <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring. A wonderful
+          serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my
+          whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of
+          souls like mine. I am so happy.</p>
+      </div>
+    </div>
+    <div class="section">
+      <div>
+        <h2>Waterfalls</h2>
+        <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring. A wonderful
+          serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my
+          whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of
+          souls like mine. I am so happy.</p>
+      </div>
+      <img src="travel5.jpg" alt="Process Image">
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>EXPLORE</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Countries</a></li>
+            <li><a href="#">Cities</a></li>
+            <li><a href="#">Regions</a></li>
+            <li><a href="#">Inspiration</a></li>
+            <li><a href="#">Trending Tours</a></li>
+          </div>
+        </ul>
+
+      </div>
+      <div class="footer-column">
+        <h3>BOOKING</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Book Now</a></li>
+            <li><a href="#">Deals & Rewards</a></li>
+            <li><a href="#">Car Rentals</a></li>
+            <li><a href="#">Sign In/Register</a></li>
+            <li><a href="#">My Account</a></li>
+          </div>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>COMANY</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Career</a></li>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Partners</a></li>
+            <li><a href="#">Press</a></li>
+          </div>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>SUPPORT</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Live Chat</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Report an Issue</a></li>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2024 ExploreMore. All rights reserved|Designed By <span>@SHIMRA NAAZ</span></div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-pinterest"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
+      <div>
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookies Policy</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

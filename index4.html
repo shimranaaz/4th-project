@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact us</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <style>
+    * {
+      font-family: "Space Grotesk", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .navbar {
+      display: grid;
+      width: 100%;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      grid-gap: 10em;
+      grid-template-columns: 1fr auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 1rem;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 1rem;
+      display: inline-block;
+      position: relative;
+    }
+
+    .navbar a:hover::after {
+      content: '';
+      position: absolute;
+      width: 90%;
+      height: 2px;
+      background: linear-gradient(to bottom, #1A512E, #63A91F);
+      bottom: 0;
+      left: 0;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(6, auto);
+      gap: 1rem;
+    }
+
+    .menu-item {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #555;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #191919;
+    }
+
+    .menu-item:hover .dropdown-content {
+      display: block;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 30px;
+      height: 3px;
+      background-color: white;
+      margin: 5px 0;
+    }
+
+    #toggle {
+      display: none;
+    }
+
+    .navbar h1 {
+      color: white;
+    }
+
+    .sign i {
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        grid-template-columns: 1fr;
+        grid-gap: 1rem;
+        background-color: black;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+      }
+
+      .menu-item {
+        text-align: center;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      #toggle:checked+.menu {
+        display: grid;
+      }
+
+      .sign {
+        text-align: center;
+        display: none;
+      }
+    }
+
+    .contact h1 {
+      font-size: 40px;
+      color: #63A91F;
+      text-align: center;
+      margin: 30px;
+    }
+
+    .container2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin: auto;
+      gap: 40px;
+      max-width: 80%;
+      background-color: white;
+      padding: 20px;
+      box-shadow: 10px 10px 20px gray;
+      border-radius: 8px;
+      margin-bottom: 50px;
+    }
+
+    .image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image img {
+      width: 100%;
+      height: 29em;
+      border-radius: 8px;
+    }
+
+    .form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .form h1 {
+      text-align: center;
+      background: linear-gradient(to bottom, #1A512E, #63A91F);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .form label {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .form input[type="text"],
+    .form input[type="date"] {
+      width: 80%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .form button {
+      padding: 10px;
+      background-color: #63A91F;
+      font-size: 18px;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .footer {
+      background-color: black;
+      color: #ffffff;
+      padding: 40px;
+    }
+
+    .footer-container {
+      display: grid;
+      padding: 2em;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .footer-column {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 0;
+    }
+
+    .footer-column li {
+      list-style: square;
+    }
+
+    .footer-column a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .footer-column a:hover {
+      text-decoration: underline;
+      color: #63A91F;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid white;
+      padding-top: 30px;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-icons a {
+      color: #ffffff;
+      font-size: 24px;
+      text-decoration: none;
+    }
+
+    .footer-bottom a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer1 {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-bottom span {
+      color: #63A91F;
+    }
+
+    @media only screen and (max-width:991px) {
+      .container2 {
+        grid-template-columns: 1fr;
+        grid-gap: 4em;
+      }
+
+      .navbar h1 {
+        font-size: 20px;
+      }
+    }
+
+    @media only screen and (max-width:767px) {
+      .container2 {
+        grid-template-columns: 1fr;
+        grid-gap: 4em;
+      }
+
+      .navbar h1 {
+        font-size: 20px;
+      }
+
+      .footer-bottom {
+        display: none;
+      }
+    }
+
+    @media only screen and (max-width:300px) {
+      .navbar h1 {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <h1>Luxury voyage</h1>
+    <label for="toggle" class="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </label>
+    <input type="checkbox" id="toggle">
+    <div class="menu">
+      <div class="menu-item">
+        <a href="index.html">Home</a>
+      </div>
+      <div class="menu-item">
+        <a href="index1.html">About Us</a>
+      </div>
+      <div class="menu-item">
+        <a href="index2.html">Popular places&nbsp;<i class="fa-solid fa-caret-down"></i></a>
+        <div class="dropdown-content">
+          <a href="#">Maldives</a>
+          <a href="#">New York</a>
+          <a href="#">Paris</a>
+          <a href="#">Taj Mahal</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="index3.html">Photo Gallery&nbsp;<i class="fa-solid fa-caret-down"></i></a>
+        <div class="dropdown-content">
+          <a href="#">Photo Gallery</a>
+          <a href="#">Video Gallery</a>
+        </div>
+      </div>
+      <div class="menu-item">
+        <a href="index4.html">Contact Us</a>
+      </div>
+      <div class="sign">
+        <a href="index5.html">Sign in&ensp;<i class="fa-solid fa-user"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="contact">
+    <h1>Contact us</h1>
+  </div>
+  <div class="container2">
+    <div class="image">
+      <img src="hotel1.png" alt="Travel Image">
+    </div>
+    <div class="form">
+      <h1>BOOK NOW</h1>
+      <label for="whereTo">Where To go</label>
+      <input type="text" id="whereTo" name="whereTo" placeholder="Destination">
+
+      <label for="howMany">How Many Members</label>
+      <input type="text" id="howMany" name="howMany" placeholder="Number of people">
+
+      <label for="arrivals">Arrivals</label>
+      <input type="date" id="arrivals" name="arrivals">
+
+      <label for="leaving">Leaving</label>
+      <input type="date" id="leaving" name="leaving">
+
+      <button type="submit">submit</button>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>EXPLORE</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Countries</a></li>
+            <li><a href="#">Cities</a></li>
+            <li><a href="#">Regions</a></li>
+            <li><a href="#">Inspiration</a></li>
+            <li><a href="#">Trending Tours</a></li>
+          </div>
+        </ul>
+
+      </div>
+      <div class="footer-column">
+        <h3>BOOKING</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Book Now</a></li>
+            <li><a href="#">Deals & Rewards</a></li>
+            <li><a href="#">Car Rentals</a></li>
+            <li><a href="#">Sign In/Register</a></li>
+            <li><a href="#">My Account</a></li>
+          </div>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>COMANY</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Career</a></li>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Partners</a></li>
+            <li><a href="#">Press</a></li>
+          </div>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>SUPPORT</h3>
+        <ul>
+          <div class="footer1">
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Live Chat</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Report an Issue</a></li>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2024 ExploreMore. All rights reserved|Designed By <span>@SHIMRA NAAZ</span></div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-pinterest"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
+      <div>
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookies Policy</a>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
